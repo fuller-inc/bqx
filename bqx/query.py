@@ -68,6 +68,12 @@ class Query:
             s = 'ORDER BY %s' % str(row)
         return self._apply(s)
 
+    def ASC(self):
+        return self._add_decorator('ORDER BY', 'ASC')
+
+    def DESC(self):
+        return self._add_decorator('ORDER BY', 'DESC')
+
     def GROUP_BY(self, *rows):
         return self._apply('GROUP BY %s' % ', '.join([str(x) for x in rows]))
 
@@ -138,3 +144,9 @@ class Query:
         else:
             t = arg
         return t
+
+    def _add_decorator(self, last_clause, deco):
+        if self._is_next_to(last_clause):
+            return self._apply(deco)
+        else:
+            raise Exception("Can't add decorator %s here." % deco)
