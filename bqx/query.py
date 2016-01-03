@@ -47,7 +47,6 @@ class Query:
 
     def FROM(self, arg):
         t = self._as_claus(arg)
-        #self.applied_c.append('FROM %s' % t)
         return self._apply('FROM %s' % t)
 
     def WHERE(self, cond):
