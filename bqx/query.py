@@ -107,6 +107,9 @@ class Query:
         else:
             raise Exception('%s is not registered as an UDF.' % func)
 
+    def LIMIT(self, limit):
+        return self._apply('LIMIT %d' % limit)
+
     def AS(self, alias_name):
         self.alias_name = alias_name
         return self
