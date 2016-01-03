@@ -1,3 +1,4 @@
+import textwrap
 import bqx.parts
 from copy import deepcopy
 from enum import Enum
@@ -14,11 +15,13 @@ class Query:
 
     ALL = _Special.ALL
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, udf=[], indent=True):
         self.partial = True
         self.applied_c = []
         self.alias_name = None
-        self.udf_funcs = kwargs.get('udf', [])
+        self.udf_funcs = udf
+        self.indent = indent
+        self.selected = False
 
     def __getattr__(self, item):
         if self.alias_name:
@@ -33,8 +36,16 @@ class Query:
         return copied
 
     def SELECT(self, *args, **kwargs):
-        col = []
+        if self.selected:
+            self.selected = False
+            q = self.SELECT(*args, **kwargs)
+            q = q.FROM(self.getq())
+            q.applied_c = q.applied_c[-2:]
+            return q
+        else:
+            self.selected = True
 
+        col = []
         for arg in args:
             if isinstance(arg, str):
                 col.append(arg)
@@ -47,6 +58,8 @@ class Query:
 
     def FROM(self, arg):
         t = self._as_claus(arg)
+        if self.indent:
+            t = textwrap.indent(t, '  ').lstrip()
         return self._apply('FROM %s' % t)
 
     def WHERE(self, cond):
