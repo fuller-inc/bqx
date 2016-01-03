@@ -66,6 +66,9 @@ class Column(Comparable, Alias):
             n = self.alias_name
         else:
             n = self.real_name
+
+        if isinstance(other, str):
+            other = repr(other)
         return '%s %s %s' % (n, op, str(other))
 
 
