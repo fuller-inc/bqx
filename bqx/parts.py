@@ -61,6 +61,12 @@ class Column(Comparable, Alias):
     def __ge__(self, other):
         return self._cond_t('>=', other)
 
+    def __and__(self, other):
+        return self._cond_t('AND', other)
+
+    def __or__(self, other):
+        return self._cond_t('OR', other)
+
     def _cond_t(self, op, other):
         if self.alias_name:
             n = self.alias_name
@@ -69,7 +75,7 @@ class Column(Comparable, Alias):
 
         if isinstance(other, str):
             other = repr(other)
-        return '%s %s %s' % (n, op, str(other))
+        return Column('%s %s %s' % (n, op, str(other)))
 
 
 class Func:
