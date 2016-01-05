@@ -2,7 +2,7 @@ BQX
 =====
 *Author: Takumi Sueda*
 
-Generage sophisticated query in simple way.
+Generage sophisticated query for Google BigQuery in simple way.
 
 
 ## What's this?
