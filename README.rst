@@ -1,18 +1,24 @@
 BQX
-=====
+===
+
 *Author: Takumi Sueda*
 
 Generage sophisticated query in simple way.
 
+What's this?
+------------
 
-## What's this?
-This library is focused to generate queries for Google BigQuery.
-It's similar to SQLAlchemy, but BQX acts just as a querygenerator
-so I suggest you to use this with front-ends like pandas,
-along with Jupyter Notebook. (See 'example' folder for demonstrations
-of BQX w/ pandas and Jupyter Notebook.)
+This library is focused to generate queries for Google BigQuery. It's
+similar to SQLAlchemy, but BQX acts just as a querygenerator so I
+suggest you to use this with front-ends like pandas, along with Jupyter
+Notebook. (See 'example' folder for demonstrations of BQX w/ pandas and
+Jupyter Notebook.)
 
-## Example
+Example
+-------
+
+::
+
     >>> from bqx.query import Query as Q
     >>> from bqx.parts import Table as T, Column as C
     >>> from bqx.func import SUM
@@ -41,7 +47,9 @@ of BQX w/ pandas and Jupyter Notebook.)
     ORDER BY count_sum
     DESC
 
-## Why some functions are UPPERCASE?
+Why some functions are UPPERCASE?
+---------------------------------
+
 Yes, I know, UPPERCASE functions are not cool and discouraged to use.
 Why I adopted them is to avoid collision with Python's reserved words.
 
