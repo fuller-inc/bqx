@@ -76,18 +76,3 @@ class Column(Comparable, Alias):
         if isinstance(other, str):
             other = repr(other)
         return Column('%s %s %s' % (n, op, str(other)))
-
-
-class Func:
-    def __init__(self, func_name, code):
-        self.func_name = func_name
-        self.code = code
-
-    def __repr__(self):
-        return self.expand()
-
-    def __str__(self):
-        return self.expand()
-
-    def expand(self):
-        return '%s(%s)' % (self.func_name, self.arg)
