@@ -39,7 +39,7 @@ class Query:
         if self.selected:
             self.selected = False
             q = self.SELECT(*args, **kwargs)
-            q = q.FROM(self.getq())
+            q = q.FROM(self)
             q.applied_c = q.applied_c[-2:]
             return q
         else:
