@@ -9,8 +9,8 @@ with open(os.path.join(here, 'README.rst'), encoding='utf-8') as f:
     readme = f.read()
 
 __version__ = '0.0.1'
-__author__ = 'Fuller, Inc.'
-__author_email__ = 'puhitaku@gmail.com'
+__author__ = 'Takumi Sueda'
+__author_email__ = 'takumi.sueda@fuller.co.jp'
 __license__ = 'BSD License'
 __classifiers__ = (
     'Development Status :: 2 - Pre-Alpha',
