@@ -61,6 +61,21 @@ class Column(Comparable, Alias):
     def __ge__(self, other):
         return self._cond_t('>=', other)
 
+    def __add__(self, other):
+        return self._cond_t('+', other)
+
+    def __sub__(self, other):
+        return self._cond_t('-', other)
+
+    def __mul__(self, other):
+        return self._cond_t('*', other)
+
+    def __truediv__(self, other):
+        return self._cond_t('/', other)
+
+    def __mod__(self, other):
+        return self._cond_t('%', other)
+
     def __and__(self, other):
         return self._cond_t('AND', other)
 
