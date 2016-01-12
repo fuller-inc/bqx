@@ -9,12 +9,13 @@ Alias = bqx.abstract.Alias
 
 
 class Query:
-    def __init__(self, udf=[], indent=True):
+    def __init__(self, udf=[], indent=True, auto_alias=False):
         self.partial = True
         self.applied_c = []
         self.alias_name = None
         self.udf_funcs = udf
         self.indent = indent
+        self.auto_alias = auto_alias
         self.selected = False
 
     def __getattr__(self, item):
@@ -44,7 +45,7 @@ class Query:
             if isinstance(arg, str):
                 col.append(arg)
             elif isinstance(arg, Column) or isinstance(arg, Case):
-                col.append(arg.as_claus())
+                col.append(arg.as_claus(auto_alias=self.auto_alias))
             elif arg == self._Special.ALL:
                 col.append('*')
         col += [Column(real).AS(alias).as_claus() for alias, real in kwargs.items()]

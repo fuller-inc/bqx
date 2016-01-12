@@ -58,12 +58,16 @@ class Alias:
         self.alias_name = alias
         return self
 
-    def as_claus(self):
+    def as_claus(self, auto_alias=False):
         """Expand its real/alias name in AS claus form."""
         if self.alias_name:
             return '%s AS %s' % (self.real_name, self.alias_name)
         else:
-            return self.real_name
+            if auto_alias and '.' in self.real_name:
+                self.alias_name = self.real_name.split('.')[-1]
+                return self.as_claus()
+            else:
+                return self.real_name
 
     def alias_name(self):
         return self._alias_name
