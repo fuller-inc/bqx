@@ -1,20 +1,14 @@
 import textwrap
 import bqx.parts
+import bqx.abstract
 from copy import deepcopy
-from enum import Enum
 
 Column = bqx.parts.Column
-Func = bqx.parts.Func
 Table = bqx.parts.Table
+Alias = bqx.abstract.Alias
 
 
 class Query:
-    class _Special(Enum):
-        "Enum class for special words."
-        ALL = 1
-
-    ALL = _Special.ALL
-
     def __init__(self, udf=[], indent=True):
         self.partial = True
         self.applied_c = []
@@ -25,7 +19,7 @@ class Query:
 
     def __getattr__(self, item):
         if self.alias_name:
-            return '%s.%s' % (self.alias_name, str(item))
+            return Column('%s.%s' % (self.alias_name, str(item)))
         else:
             raise Exception("Attribute/Function %s is not found. Call AS or register UDF funcs." % item)
 
@@ -49,7 +43,7 @@ class Query:
         for arg in args:
             if isinstance(arg, str):
                 col.append(arg)
-            elif isinstance(arg, Column):
+            elif isinstance(arg, Column) or isinstance(arg, Case):
                 col.append(arg.as_claus())
             elif arg == self._Special.ALL:
                 col.append('*')
@@ -103,6 +97,9 @@ class Query:
     def EACH(self):
         if self._is_next_to('JOIN'):
             q = self.applied_c[-1].replace('JOIN', 'JOIN EACH')
+            return self._replace(-1, q)
+        elif self._is_next_to('GROUP BY'):
+            q = self.applied_c[-1].replace('GROUP', 'GROUP EACH')
             return self._replace(-1, q)
         else:
             raise Exception('Not allowed to place EACH here.')
@@ -166,3 +163,29 @@ class Query:
             return self._apply(deco)
         else:
             raise Exception("Can't add decorator %s here." % deco)
+
+
+class Case(Alias):
+    def __init__(self):
+        super().__init__(self)
+        self.conds = []
+
+    def __str__(self):
+        if self.alias_name:
+            return self.alias_name
+        else:
+            return self.real_name
+
+    def WHEN(self, cond):
+        self.conds.append([cond, 0])
+        return self
+
+    def THEN(self, val):
+        self.conds[-1][1] = val
+        return self
+
+    def END(self):
+        template = '\nCASE %s\nEND'
+        conds_str = ['WHEN {cond} THEN {val}'.format(cond=c[0], val=repr(str(c[1]))) for c in self.conds]
+        self.real_name = template % '\n'.join(conds_str)
+        return self
