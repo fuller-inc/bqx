@@ -1,1 +1,5 @@
-include README.rst LICENSE
+include README.rst
+include LICENSE
+include example/*.py
+include example/*.ipynb
+recursive-include tests *
