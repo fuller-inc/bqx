@@ -7,22 +7,20 @@ Generage sophisticated query for Google BigQuery in simple way.
 
 ### What is BQX?
 BQX is a minimal query generator for Google BigQuery.
-It's intended for being used by data analysts / scientists
+It's mainly intended for being used by data analysts / scientists
 who want to analyze big data.
 
 BQX fires its power especially on making LONG and NESTED query.
 BigQuery doesn't accept two or more queries at once so
 user has to make views or make terribly nested query.
-BQX's **sub query reference** feature and **SELECT chain** feature
-helps you make long query. See samples for usage.
+BQX's features help you make long query preserving high readability.
+See samples for its features and usage.
 
 
 ## How can I use it?
 Running example on REPL is good for getting started,
 and we suggest you to use BQX with front-ends like pandas for next step.
-Communication between your code and BigQuery API is fully automated
-thanks to pandas. Please take a look at 'pandas_demo.py' and
-'pandas_demo.ipynb' for Jupyter Notebook.
+
 
 
 ## Is it only for BigQuery? How about MySQL or else?
