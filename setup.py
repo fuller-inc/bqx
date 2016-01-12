@@ -1,11 +1,10 @@
 import os
 import sys
-from codecs import open
 from setuptools import setup, find_packages
 from setuptools.command.test import test as TestCommand
 
 here = os.path.abspath(os.path.dirname(__file__))
-with open(os.path.join(here, 'README.rst'), encoding='utf-8') as f:
+with open(os.path.join(here, 'README.rst')) as f:
     readme = f.read()
 
 __version__ = '0.0.1'
@@ -23,7 +22,7 @@ __classifiers__ = (
     'Programming Language :: Python :: 3.4',
     'Programming Language :: SQL',
     'Topic :: Database',
-    'Topic :: Software Development :: Code Generators'
+    'Topic :: Software Development :: Code Generators',
 )
 
 
