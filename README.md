@@ -70,5 +70,5 @@ Some important clauses are not implemented at present.
 
 
 ### Where are documentations?
-We're sorry but documentation is now being written.
+We're sorry but documentation is not available right now.
 It will be published on ReadTheDocs.org soon. Stay tuned.
