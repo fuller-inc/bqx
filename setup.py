@@ -20,7 +20,8 @@ __classifiers__ = (
     'Operating System :: OS Independent',
     'Programming Language :: Python',
     'Programming Language :: Python :: 3',
-    'Programming Language :: SQL'
+    'Programming Language :: Python :: 3.4',
+    'Programming Language :: SQL',
     'Topic :: Database',
     'Topic :: Software Development :: Code Generators'
 )
