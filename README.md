@@ -35,17 +35,18 @@ We are using some compute engines which can process SQL
 So in near future, adding other SQL dialect is planned.
 
 
-## Is it ORM?
-No. It looks like ORM, but essentially it isn't.
+## Why some functions are UPPERCASE?
+The first reason is for avoiding collision with Python's reserved words.
+The another reason is for SQL's UPPERCASE manners.
 
 
 ## Is it ready to use?
 Some important clauses are not implemented at present. 
 
 
-## Why some functions are UPPERCASE?
-The first reason is for avoiding collision with Python's reserved words.
-The another reason is for SQL's UPPERCASE manners.
+## Where are documentations?
+We're sorry but documentation is now being written.
+It will be published on ReadTheDocs.org soon. Stay tuned.
 
 
 ## Installing
@@ -64,19 +65,3 @@ The another reason is for SQL's UPPERCASE manners.
     SELECT word
     FROM publicdata:samples.shakespeare
     LIMIT 10
-
-    >>> count = C('word_count')
-    >>> corpus = C('corpus')
-    >>> count_sum = SUM(count).AS('count_sum')
-    >>> q = (
-    ...     Q()
-    ...     .SELECT(corpus, count_sum)
-    ...     .FROM(shakespeare)
-    ...     .GROUP_BY(corpus)
-    ...     .ORDER_BY(count_sum).DESC())
-    >>> print(q.getq())
-    SELECT corpus, SUM(word_count) AS count_sum
-    FROM publicdata:samples.shakespeare
-    GROUP BY corpus
-    ORDER BY count_sum
-    DESC
