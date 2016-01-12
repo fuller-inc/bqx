@@ -91,6 +91,7 @@ def test_having():
     # assert q.HAVING('col = 1234').getq() == 'SELECT column\nFROM table AS tbl\nHAVING col = 1234'
     # assert q.HAVING(column_obj == 1234).getq() == 'SELECT column\nFROM table AS tbl\nHAVING col = 1234'
 
+
 def test_order_by():
     assert Q().ORDER_BY(column).ASC().getq() == 'ORDER BY column\nASC'
     assert Q().ORDER_BY(column).DESC().getq() == 'ORDER BY column\nDESC'
@@ -98,5 +99,10 @@ def test_order_by():
     assert Q().ORDER_BY(column_obj).ASC().getq() == 'ORDER BY col\nASC'
     assert Q().ORDER_BY(column_obj).DESC().getq() == 'ORDER BY col\nDESC'
 
+
 def test_limit():
     assert Q().LIMIT(3939).getq() == 'LIMIT 3939'
+
+
+def test_case():
+    assert Q().SELECT(case).getq() == "SELECT \nCASE WHEN col = 'miku' THEN 'wow'\nEND"
