@@ -5,8 +5,6 @@ Commented-out assert lines indicates it's not implemented yet.
 Run Test: `py.test` or `python -m pytest`
 """
 
-import inspect
-from optparse import OptionParser
 from bqx.query import Query as Q, Case as CASE
 from bqx.parts import Column as C, Table as T
 
@@ -67,7 +65,8 @@ def test_flatten():
 
 def test_join():
     q = Q()
-    for fn, name in [(q.INNER_JOIN, 'INNER JOIN'), (q.LEFT_JOIN, 'LEFT JOIN')]:
+    joins = [(q.INNER_JOIN, 'INNER JOIN'), (q.LEFT_OUTER_JOIN, 'LEFT OUTER JOIN'), (q.CROSS_JOIN, 'CROSS JOIN')]
+    for fn, name in joins:
         assert fn(table).getq() == '%s table' % name
         assert fn(table_obj).getq() == '%s table AS tbl' % name
         assert fn(table_obj).EACH().getq() == '%s EACH table AS tbl' % name

@@ -91,8 +91,11 @@ class Query:
     def INNER_JOIN(self, table):
         return self._JOIN('INNER', table)
 
-    def LEFT_JOIN(self, table):
-        return self._JOIN('LEFT', table)
+    def LEFT_OUTER_JOIN(self, table):
+        return self._JOIN('LEFT OUTER', table)
+
+    def CROSS_JOIN(self, table):
+        return self._JOIN('CROSS', table)
 
     def EACH(self):
         if self._is_next_to('JOIN'):
