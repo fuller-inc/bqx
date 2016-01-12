@@ -5,12 +5,52 @@ BQX
 Generage sophisticated query for Google BigQuery in simple way.
 
 
-## What's this?
-This library is focused to generate queries for Google BigQuery.
-It's similar to SQLAlchemy, but BQX acts just as a querygenerator
-so I suggest you to use this with front-ends like pandas,
-along with Jupyter Notebook. (See 'example' folder for demonstrations
-of BQX w/ pandas and Jupyter Notebook.)
+### What is BQX?
+BQX is a minimal query generator for Google BigQuery.
+It's intended for being used by data analysts / scientists
+who want to analyze big data.
+
+BQX fires its power especially on making LONG and NESTED query.
+BigQuery doesn't accept two or more queries at once so
+user has to make views or make terribly nested query.
+BQX's **sub query reference** feature and **SELECT chain** feature
+helps you make long query. See samples for usage.
+
+
+## How can I use it?
+Running example on REPL is good for getting started,
+and we suggest you to use BQX with front-ends like pandas for next step.
+Communication between your code and BigQuery API is fully automated
+thanks to pandas. Please take a look at 'pandas_demo.py' and
+'pandas_demo.ipynb' for Jupyter Notebook.
+
+
+## Is it only for BigQuery? How about MySQL or else?
+It aims to generate query excecuted on BigQuery but it might be
+applied to other SQL environments because
+difference between plain SQL and BigQuery is small.
+
+We are using some compute engines which can process SQL
+(and dialects) like BigQuery, Hadoop and Spark.
+So in near future, adding other SQL dialect is planned.
+
+
+## Is it ORM?
+No. It looks like ORM, but essentially it isn't.
+
+
+## Is it ready to use?
+Some important clauses are not implemented at present. 
+
+
+## Why some functions are UPPERCASE?
+The first reason is for avoiding collision with Python's reserved words.
+The another reason is for SQL's UPPERCASE manners.
+
+
+## Installing
+    pip install bqx
+
 
 ## Example
     >>> from bqx.query import Query as Q
@@ -40,9 +80,3 @@ of BQX w/ pandas and Jupyter Notebook.)
     GROUP BY corpus
     ORDER BY count_sum
     DESC
-
-## Why some functions are UPPERCASE?
-Yes, I know, UPPERCASE functions are not cool and discouraged to use.
-Why I adopted them is to avoid collision with Python's reserved words.
-
-The second reason is for SQL's UPPERCASE manners.
