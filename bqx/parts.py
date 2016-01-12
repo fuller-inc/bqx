@@ -35,6 +35,8 @@ class Column(Comparable, Alias):
         Alias.__init__(self, real_name)
 
     def __getattr__(self, item):
+        if item.startswith('__'):
+            return None
         raise TypeError("Column doesn't have members.")
 
     def __str__(self):
