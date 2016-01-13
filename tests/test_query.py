@@ -146,11 +146,11 @@ def test_select_chain():
 
 
 def test_udf():
-    q = Q(udf=['func']).FROM(table_obj)
-    assert q.UDF('func').getq() == 'FROM FUNC(table AS tbl)'
+    q = Q(udf=['func'])
+    assert q.FROM(table_obj).UDF('func').getq() == 'FROM FUNC(table AS tbl)'
 
     with pytest.raises(Exception):
-        Q().UDF('func')  # Call UDF in wrong place
+        q.UDF('func')  # Call UDF in wrong place
 
     with pytest.raises(Exception):
-        q.UDF('unknown_func')  # Call UDF without defining UDFs in constructor
+        q.FROM(table_obj).UDF('unknown_func')  # Call UDF without defining UDFs in constructor
