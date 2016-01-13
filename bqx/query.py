@@ -69,11 +69,8 @@ class Query:
         else:
             raise Exception('ON clause is put in wrong place. Last clause: %s' % self.applied_c[-1])
 
-    def ORDER_BY(self, row, desc=False):
-        if desc:
-            s = 'ORDER BY %s DESC' % str(row)
-        else:
-            s = 'ORDER BY %s' % str(row)
+    def ORDER_BY(self, row):
+        s = 'ORDER BY %s' % str(row)
         return self._apply(s)
 
     def ASC(self):
