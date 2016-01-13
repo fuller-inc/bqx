@@ -13,7 +13,7 @@ BQX fires its power especially on making LONG and NESTED query.
 BigQuery doesn't accept two or more queries at once so
 user has to make views or make terribly nested query.
 BQX's features help you make long query preserving high readability.
-See samples for its features and usage.
+See example for its features and usage.
 
 
 ## Requirements
@@ -36,6 +36,8 @@ See samples for its features and usage.
     SELECT word
     FROM publicdata:samples.shakespeare
     LIMIT 10
+
+See example directory for more detailed examples.
 
 
 ## License
