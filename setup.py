@@ -1,11 +1,12 @@
 import os
 import sys
+import pypandoc
 from setuptools import setup, find_packages
 from setuptools.command.test import test as TestCommand
 
 here = os.path.abspath(os.path.dirname(__file__))
-with open(os.path.join(here, 'README.rst')) as f:
-    readme = f.read()
+with open(os.path.join(here, 'README.md')) as f:
+    readme = pypandoc.convert(f.read(), 'rst', format='md')
 
 __version__ = '0.0.1'
 __author__ = 'Takumi Sueda'
