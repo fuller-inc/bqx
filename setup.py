@@ -16,7 +16,7 @@ __classifiers__ = (
     'Development Status :: 2 - Pre-Alpha',
     'Environment :: Console',
     'Intended Audience :: Developers',
-    'Intended Audience :: Science/Research'
+    'Intended Audience :: Science/Research',
     'License :: OSI Approved :: BSD License',
     'Operating System :: OS Independent',
     'Programming Language :: Python',
