@@ -1,8 +1,7 @@
 BQX
 =====
-[![Build Status](https://travis-ci.org/fuller-inc/bqx.svg?branch=master)](https://travis-ci.org/fuller-inc/bqx)
-[![Coverage Status](https://coveralls.io/repos/fuller-inc/bqx/badge.svg?branch=master&service=github)](https://coveralls.io/github/fuller-inc/bqx?branch=master)
-
+[![Build Status](https://img.shields.io/travis/fuller-inc/bqx/master.svg?style=flat-square)](https://travis-ci.org/fuller-inc/bqx)
+[![Coverage Status](https://img.shields.io/coveralls/fuller-inc/bqx/master.svg?style=flat-square)](https://coveralls.io/github/fuller-inc/bqx?branch=master)
 
 Generage sophisticated query for Google BigQuery in simple way.
 
