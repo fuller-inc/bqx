@@ -146,10 +146,12 @@ class Query:
         return newself
 
     def _is_next_to(self, last_claus):
-        if self.applied_c[-1].find(last_claus) >= 0:
-            return True
-        else:
-            return False
+        try:
+            if self.applied_c[-1].find(last_claus) >= 0:
+                return True
+        except IndexError:
+            pass
+        return False
 
     def _as_claus(self, arg):
         if isinstance(arg, Table):
