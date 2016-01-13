@@ -105,8 +105,8 @@ class Query:
 
     def UDF(self, func):
         if func in self.udf_funcs:
-            last_q = self.applied_c[-1]
-            if last_q.startswith('FROM '):
+            if self._is_next_to('FROM'):
+                last_q = self.applied_c[-1]
                 last_q = last_q[5:].strip('()')
                 func_name = func.upper()
                 s = 'FROM %s(%s)' % (func_name, last_q)
