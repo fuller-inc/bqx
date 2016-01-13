@@ -1,6 +1,8 @@
 BQX
 ===
 
+|Build Status| |Coverage Status|
+
 Generage sophisticated query for Google BigQuery in simple way.
 
 What is BQX?
@@ -13,7 +15,7 @@ analyze big data.
 BQX fires its power especially on making LONG and NESTED query. BigQuery
 doesn't accept two or more queries at once so user has to make views or
 make terribly nested query. BQX's features help you make long query
-preserving high readability. See samples for its features and usage.
+preserving high readability. See example for its features and usage.
 
 Requirements
 ------------
@@ -43,6 +45,8 @@ Example
     SELECT word
     FROM publicdata:samples.shakespeare
     LIMIT 10
+
+See example directory for more detailed examples.
 
 License
 -------
@@ -85,3 +89,8 @@ Where are documentations?
 
 We're sorry but documentation is not available right now. It will be
 published on ReadTheDocs.org soon. Stay tuned.
+
+.. |Build Status| image:: https://travis-ci.org/fuller-inc/bqx.svg?branch=master
+   :target: https://travis-ci.org/fuller-inc/bqx
+.. |Coverage Status| image:: https://coveralls.io/repos/fuller-inc/bqx/badge.svg?branch=master&service=github
+   :target: https://coveralls.io/github/fuller-inc/bqx?branch=master
