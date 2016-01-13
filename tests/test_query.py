@@ -80,6 +80,9 @@ def test_join():
         assert fn(table_obj).ON(column_obj == 'foo').getq() == "%s table AS tbl\nON col = 'foo'" % name
         assert fn(table_obj).EACH().ON(column_obj == 'foo').getq() == "%s EACH table AS tbl\nON col = 'foo'" % name
 
+    with pytest.raises(Exception):
+        q.ON('cond')  # Call ON without calling JOINs
+
 
 def test_where():
     q = Q().SELECT(column_obj).FROM(table_obj)
@@ -103,15 +106,25 @@ def test_having():
 
 
 def test_order_by():
-    assert Q().ORDER_BY(column).ASC().getq() == 'ORDER BY column\nASC'
-    assert Q().ORDER_BY(column).DESC().getq() == 'ORDER BY column\nDESC'
+    for col_name, alias_name in [(column, 'column'), (column_obj, 'col')]:
+        assert Q().ORDER_BY(col_name).getq() == 'ORDER BY %s' % alias_name
+        assert Q().ORDER_BY(col_name).ASC().getq() == 'ORDER BY %s\nASC' % alias_name
+        assert Q().ORDER_BY(col_name).DESC().getq() == 'ORDER BY %s\nDESC' % alias_name
 
-    assert Q().ORDER_BY(column_obj).ASC().getq() == 'ORDER BY col\nASC'
-    assert Q().ORDER_BY(column_obj).DESC().getq() == 'ORDER BY col\nDESC'
+    with pytest.raises(Exception):
+        Q().ASC()  # Call ASC (and other decorators) in wrong place
 
 
 def test_limit():
     assert Q().LIMIT(3939).getq() == 'LIMIT 3939'
+
+
+def test_each():
+    assert Q().INNER_JOIN(table_obj).EACH().getq() == 'INNER JOIN EACH table AS tbl'
+    assert Q().GROUP_BY(column_obj).getq() == 'GROUP BY col'
+
+    with pytest.raises(Exception):
+        Q().EACH()  # Call EACH without calling JOINs or GROUP BY
 
 
 def test_case():
@@ -127,3 +140,14 @@ def test_select_chain():
         .ORDER_BY(column_obj))
 
     assert q.getq() == 'SELECT col\nFROM (SELECT column AS col\n  FROM table AS tbl)\nORDER BY col'
+
+
+def test_udf():
+    q = Q(udf=['func']).FROM(table_obj)
+    assert q.UDF('func').getq() == 'FROM FUNC(table AS tbl)'
+
+    with pytest.raises(Exception):
+        Q().UDF('func')  # Call UDF in wrong place
+
+    with pytest.raises(Exception):
+        q.UDF('unknown_func')  # Call UDF without defining UDFs in constructor
