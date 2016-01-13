@@ -32,6 +32,34 @@ class Comparable:
         # self >= other
         raise NotImplementedError
 
+    def __add__(self, other):
+        # self + other
+        raise NotImplementedError
+
+    def __sub__(self, other):
+        # self - other
+        raise NotImplementedError
+
+    def __mul__(self, other):
+        # self * other
+        raise NotImplementedError
+
+    def __truediv__(self, other):
+        # self / other
+        raise NotImplementedError
+
+    def __mod__(self, other):
+        # self % other
+        raise NotImplementedError
+
+    def __and__(self, other):
+        # self & other
+        raise NotImplementedError
+
+    def __or__(self, other):
+        # self | other
+        raise NotImplementedError
+
 
 class Alias:
     """Subclass of Alias will be an alias of something like column and table.
