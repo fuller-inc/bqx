@@ -2,7 +2,7 @@
 Test of bqx.query.
 Commented-out assert lines indicates it's not implemented yet.
 
-Run Test: `py.test` or `python -m pytest`
+Run Test: `tox` or `python setup.py test`
 """
 
 import pytest
