@@ -5,6 +5,7 @@ Commented-out assert lines indicates it's not implemented yet.
 Run Test: `py.test` or `python -m pytest`
 """
 
+import pytest
 from bqx.query import Query as Q, Case as CASE
 from bqx.parts import Column as C, Table as T
 
@@ -30,6 +31,12 @@ def test_creation():
     # SELECT for test
     assert Q().SELECT('column').FROM('table').getq() == 'SELECT column\nFROM table'
     assert Q().SELECT('column').FROM('table').getq(end=' ') == 'SELECT column FROM table'
+
+
+def test_accessing_attributes():
+    with pytest.raises(Exception):  # Get attribute without setting alias name
+        Q().column
+    assert str(Q().AS('alias_name').column) == 'alias_name.column'  # Get attribute after setting alias name
 
 
 def test_select():
@@ -79,6 +86,9 @@ def test_where():
     assert q.WHERE('col = 1234').getq() == 'SELECT column AS col\nFROM table AS tbl\nWHERE col = 1234'
     assert q.WHERE(column_obj == 1234).getq() == 'SELECT column AS col\nFROM table AS tbl\nWHERE col = 1234'
 
+    with pytest.raises(Exception):
+        Q().WHERE('cond')
+
 
 def test_group_by():
     assert Q().GROUP_BY(column).getq() == 'GROUP BY column'
@@ -106,3 +116,14 @@ def test_limit():
 
 def test_case():
     assert Q().SELECT(case).getq() == "SELECT \nCASE WHEN col = 'miku' THEN 'wow'\nEND"
+
+
+def test_select_chain():
+    q = (
+        Q()
+        .SELECT(column_obj)
+        .FROM(table_obj)
+        .SELECT('col')
+        .ORDER_BY(column_obj))
+
+    assert q.getq() == 'SELECT col\nFROM (SELECT column AS col\n  FROM table AS tbl)\nORDER BY col'
