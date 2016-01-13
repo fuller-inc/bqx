@@ -15,7 +15,8 @@ __classifiers__ = (
     'Development Status :: 2 - Pre-Alpha',
     'Environment :: Console',
     'Intended Audience :: Developers',
-    'License :: OSI Approved :: MIT License',
+    'Intended Audience :: Science/Research'
+    'License :: OSI Approved :: BSD License',
     'Operating System :: OS Independent',
     'Programming Language :: Python',
     'Programming Language :: Python :: 3',
@@ -42,7 +43,7 @@ setup(
     author=__author__,
     author_email=__author_email__,
     url='https://github.com/fuller-inc/bqx',
-    description='Generate sophisticated query for Google BigQuery in simple way.',
+    description='Query generator for Google BigQuery and other SQL environments',
     long_description=readme,
     classifiers=__classifiers__,
     packages=find_packages(exclude=['test*']),
