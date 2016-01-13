@@ -130,6 +130,9 @@ def test_each():
 def test_case():
     assert Q().SELECT(case).getq() == "SELECT \nCASE WHEN col = 'miku' THEN 'wow'\nEND"
 
+    with pytest.raises(NotImplementedError):
+        str(CASE())  # CASE supports neither conversion nor aliasing.
+
 
 def test_select_chain():
     q = (
