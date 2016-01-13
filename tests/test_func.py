@@ -1,11 +1,10 @@
 """
-Test of bqx.parts.
+Test of bqx.func.
 
 Run Test: `tox` or `python setup.py test`
 """
 
-import pytest
-from bqx.parts import Table, Column
+from bqx.parts import Column
 from bqx.func import _fn_factory
 from bqx.func import CAST, CONCAT
 
