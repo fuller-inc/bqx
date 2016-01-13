@@ -46,8 +46,6 @@ class Query:
                 col.append(arg)
             elif isinstance(arg, Column) or isinstance(arg, Case):
                 col.append(arg.as_claus(auto_alias=self.auto_alias))
-            elif arg == self._Special.ALL:
-                col.append('*')
         col += [Column(real).AS(alias).as_claus() for alias, real in kwargs.items()]
         return self._apply('SELECT %s' % ', '.join(col))
 
@@ -174,10 +172,7 @@ class Case(Alias):
         self.conds = []
 
     def __str__(self):
-        if self.alias_name:
-            return self.alias_name
-        else:
-            return self.real_name
+        raise NotImplementedError
 
     def WHEN(self, cond):
         self.conds.append([cond, 0])
