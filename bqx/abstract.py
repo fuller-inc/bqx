@@ -64,7 +64,7 @@ class Comparable:
 class Alias:
     """Subclass of Alias will be an alias of something like column and table.
 
-    In SQL query like "column AS col", 'col' is an alias of 'column'.
+    In SQL query like "column AS col", 'column' is real name and 'col' is alias name.
     """
     def __init__(self, real_name):
         self.real_name = real_name
@@ -87,7 +87,17 @@ class Alias:
         return self
 
     def as_claus(self, auto_alias=False):
-        """Expand its real/alias name in AS claus form."""
+        """Expand its real/alias name in AS claus form.
+
+        If the alias name is not defined, auto-generated AS claus form
+        or just real name will be returned. Behavior depends on auto_alias.
+
+        Keyword Args:
+            auto_alias (bool): Generate AS claus automatically or not
+
+        Returns:
+            str: Appropriate representation of alias object
+        """
         if self.alias_name:
             return '%s AS %s' % (self.real_name, self.alias_name)
         else:
