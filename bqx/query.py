@@ -154,7 +154,7 @@ class Query:
         if isinstance(arg, Table):
             t = arg.as_claus()
         elif isinstance(arg, Query):
-            t = '(%s)' % arg.getq()
+            t = arg.getq(bracket=True)
             if arg.alias_name:
                 t = '%s AS %s' % (t, arg.alias_name)
         else:
