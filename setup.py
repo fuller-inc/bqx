@@ -12,7 +12,7 @@ if ' '.join(sys.argv) == 'setup.py register':
 else:
     readme = ''
 
-__version__ = '0.0.1'
+__version__ = '0.0.2'
 __author__ = 'Takumi Sueda'
 __author_email__ = 'takumi.sueda@fuller.co.jp'
 __license__ = 'BSD License'
