@@ -12,6 +12,8 @@ from bqx.parts import Column as C, Table as T
 # Test with basic str argument for simplicity
 column = 'column'
 column_obj = C('column').AS('col')
+column_foo = C('column').AS('foo')
+column_bar = C('column').AS('bar')
 table = 'table'
 table_obj = T('table').AS('tbl')
 table_foo = T('table_foo').AS('foo')
@@ -110,6 +112,8 @@ def test_order_by():
         assert Q().ORDER_BY(col_name).getq() == 'ORDER BY %s' % alias_name
         assert Q().ORDER_BY(col_name).ASC().getq() == 'ORDER BY %s\nASC' % alias_name
         assert Q().ORDER_BY(col_name).DESC().getq() == 'ORDER BY %s\nDESC' % alias_name
+        for another_col in [column_foo, 'foo']:
+            assert Q().ORDER_BY(another_col, col_name).DESC(another_col).getq() == 'ORDER BY foo DESC, %s' % alias_name
 
     with pytest.raises(Exception):
         Q().ASC()  # Call ASC (and other decorators) in wrong place
