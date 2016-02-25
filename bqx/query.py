@@ -87,6 +87,12 @@ class Query:
     def INNER_JOIN(self, table):
         return self._JOIN('INNER', table)
 
+    def FULL_OUTER_JOIN(self, table):
+        return self._JOIN('FULL OUTER', table)
+
+    def RIGHT_OUTER_JOIN(self, table):
+        return self._JOIN('RIGHT OUTER', table)
+
     def LEFT_OUTER_JOIN(self, table):
         return self._JOIN('LEFT OUTER', table)
 
