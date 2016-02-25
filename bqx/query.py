@@ -75,6 +75,8 @@ class Query:
         return self._add_decorator('ORDER BY', 'ASC')
 
     def DESC(self, *args):
+        if len(args) == 0:
+            return self._add_decorator('ORDER BY', 'DESC')
         newself = deepcopy(self)
         for col in args:
             newself = newself._replace_partly(-1, col, col + ' DESC')
