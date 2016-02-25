@@ -1,0 +1,2 @@
+[report]
+omit = bqx/_func_generator.py
