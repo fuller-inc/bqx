@@ -36,7 +36,7 @@ _func['arithmetic'] = [
 
 _func['casting'] = [
     'BOOLEAN',
-    # 'CAST',  # This requires special impl.
+    # 'CAST',  # Already implemented.
     'FLOAT',
     'HEX_STRING',
     'INTEGER',
@@ -44,8 +44,8 @@ _func['casting'] = [
 ]
 
 _func['comparison'] = [
-    # 'BETWEEN'  # This requires special impl.
-    # 'IS_NULL',
+    # 'BETWEEN'  # Not implemented.
+    # 'IS_NULL', # Not implemented.
     'IN',
     'COALESCE',
     'GREATEST',
@@ -144,7 +144,7 @@ _func['regex'] = [
 
 _func['string'] = [
     #'CONTAINS',
-    'CONCAT',
+    #'CONCAT',
     'INSTR',
     'LEFT',
     'LENGTH',
