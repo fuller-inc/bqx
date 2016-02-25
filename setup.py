@@ -2,15 +2,22 @@ import os
 import sys
 from setuptools import setup, find_packages
 from setuptools.command.test import test as TestCommand
+from bqx._func_generator import generate_funcpy
+
 
 here = os.path.abspath(os.path.dirname(__file__))
 
-if ' '.join(sys.argv) == 'setup.py register':
+if 'register' in sys.argv:
     import pypandoc
     with open(os.path.join(here, 'README.md')) as f:
         readme = pypandoc.convert(f.read(), 'rst', format='md')
 else:
     readme = ''
+
+if 'install' in sys.argv:
+    funcpy_in = os.path.join(here, 'bqx/_func.py')
+    funcpy = os.path.join(here, 'bqx/func.py')
+    generate_funcpy(funcpy_in, funcpy)
 
 __version__ = '0.0.2'
 __author__ = 'Takumi Sueda'
