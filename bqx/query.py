@@ -67,15 +67,18 @@ class Query:
         else:
             raise Exception('ON clause is put in wrong place. Last clause: %s' % self.applied_c[-1])
 
-    def ORDER_BY(self, row):
-        s = 'ORDER BY %s' % str(row)
+    def ORDER_BY(self, *cols):
+        s = 'ORDER BY %s' % ', '.join(str(x) for x in cols)
         return self._apply(s)
 
     def ASC(self):
         return self._add_decorator('ORDER BY', 'ASC')
 
-    def DESC(self):
-        return self._add_decorator('ORDER BY', 'DESC')
+    def DESC(self, *args):
+        newself = deepcopy(self)
+        for col in args:
+            newself = newself._replace_partly(-1, col, col + ' DESC')
+        return newself
 
     def GROUP_BY(self, *rows):
         return self._apply('GROUP BY %s' % ', '.join([str(x) for x in rows]))
@@ -139,6 +142,13 @@ class Query:
     def _apply(self, clause):
         newself = deepcopy(self)
         newself.applied_c.append(clause)
+        return newself
+
+    def _replace_partly(self, index, target_keyword, alt_keyword):
+        if self.applied_c[index].find(target_keyword) == -1:
+            raise ValueError("Keyword %s is not in original string %s ." % (target_keyword, self.applied_c[index]))
+        newself = deepcopy(self)
+        newself.applied_c[index] = newself.applied_c[index].replace(target_keyword, alt_keyword)
         return newself
 
     def _replace(self, index, new_clause):
