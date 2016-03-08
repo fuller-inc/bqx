@@ -49,10 +49,14 @@ class Query:
         col += [Column(real).AS(alias).as_claus() for alias, real in kwargs.items()]
         return self._apply('SELECT %s' % ', '.join(col))
 
-    def FROM(self, arg):
-        t = self._as_claus(arg)
+    def FROM(self, *args):
+        tbl = []
+        for a in args:
+            tbl.append(self._as_claus(a))
         if self.indent:
-            t = textwrap.indent(t, '  ').lstrip()
+            t = textwrap.indent(', '.join(tbl), '  ').lstrip()
+        else:
+            t = ', '.join(tbl)
         return self._apply('FROM %s' % t)
 
     def WHERE(self, cond):
