@@ -74,13 +74,13 @@ def test_flatten():
 
 def test_join():
     q = Q()
-    joins = [(q.INNER_JOIN, 'INNER JOIN'), (q.LEFT_OUTER_JOIN, 'LEFT OUTER JOIN'), (q.CROSS_JOIN, 'CROSS JOIN')]
+    joins = [('Q().INNER_JOIN', 'INNER JOIN'), ('Q().LEFT_OUTER_JOIN', 'LEFT OUTER JOIN'), ('Q().CROSS_JOIN', 'CROSS JOIN')]
     for fn, name in joins:
-        assert fn(table).getq() == '%s table' % name
-        assert fn(table_obj).getq() == '%s table AS tbl' % name
-        assert fn(table_obj).EACH().getq() == '%s EACH table AS tbl' % name
-        assert fn(table_obj).ON(column_obj == 'foo').getq() == "%s table AS tbl\nON col = 'foo'" % name
-        assert fn(table_obj).EACH().ON(column_obj == 'foo').getq() == "%s EACH table AS tbl\nON col = 'foo'" % name
+        assert eval(fn)(table).getq() == '%s table' % name
+        assert eval(fn)(table_obj).getq() == '%s table AS tbl' % name
+        assert eval(fn)(table_obj).EACH().getq() == '%s EACH table AS tbl' % name
+        assert eval(fn)(table_obj).ON(column_obj == 'foo').getq() == "%s table AS tbl\nON col = 'foo'" % name
+        assert eval(fn)(table_obj).EACH().ON(column_obj == 'foo').getq() == "%s EACH table AS tbl\nON col = 'foo'" % name
 
     with pytest.raises(Exception):
         q.ON('cond')  # Call ON without calling JOINs
@@ -147,6 +147,20 @@ def test_select_chain():
         .ORDER_BY(column_obj))
 
     assert q.getq() == 'SELECT col\nFROM (SELECT column AS col\n  FROM table AS tbl)\nORDER BY col'
+
+
+def test_join_chain():
+    q = (
+        Q()
+        .SELECT(table_obj.x, table_foo.y, table_bar.z)
+        .FROM(table_obj)
+        .INNER_JOIN(table_foo)
+        .ON(table_obj.x == table_foo.x)
+
+        .INNER_JOIN(table_bar)
+        .ON(table_obj.x == table_bar.x))
+
+    assert q.getq() == 'SELECT tbl.x, foo.y, bar.z\nFROM (SELECT *\n  FROM table AS tbl\n  INNER JOIN table_foo AS foo\n  ON tbl.x = foo.x)\nINNER JOIN table_bar AS bar\nON tbl.x = bar.x'
 
 
 def test_udf():

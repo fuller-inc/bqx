@@ -16,7 +16,8 @@ class Query:
         self.udf_funcs = udf
         self.indent = indent
         self.auto_alias = auto_alias
-        self.selected = False
+        self.selected = False  # Flag for SELECT chain
+        self.joined = False  # Flag for JOIN chain
 
     def __getattr__(self, item):
         if self.alias_name:
@@ -91,6 +92,23 @@ class Query:
         return self._apply('GROUP BY %s' % ', '.join([str(x) for x in rows]))
 
     def _JOIN(self, type, table):
+        if self.joined:
+            self.joined = False
+            self.selected = False
+            newq_outer = deepcopy(self)
+            newq_outer.applied_c = newq_outer.applied_c[:1]
+
+            c = deepcopy(self.applied_c)[1:]
+            self.applied_c = []
+            newq_inner = self.SELECT('*')
+            newq_inner.applied_c.extend(c)
+
+            newq_outer = newq_outer.FROM(newq_inner)
+            newq_outer = newq_outer._JOIN(type, table)
+            return newq_outer
+        else:
+            self.joined = True
+
         t = self._as_claus(table)
         return self._apply('%s JOIN %s' % (type, t))
 
