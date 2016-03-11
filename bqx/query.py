@@ -47,7 +47,7 @@ class Query:
                 col.append(arg)
             elif isinstance(arg, Column) or isinstance(arg, Case):
                 col.append(arg.as_claus(auto_alias=self.auto_alias))
-        col += [Column(real).AS(alias).as_claus() for alias, real in kwargs.items()]
+        # col += [Column(real).AS(alias).as_claus() for alias, real in kwargs.items()]
         return self._apply('SELECT %s' % ', '.join(col))
 
     def FROM(self, *args):
