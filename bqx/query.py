@@ -61,10 +61,7 @@ class Query:
         return self._apply('FROM %s' % t)
 
     def WHERE(self, cond):
-        if self._is_next_to('FROM'):
-            return self._apply('WHERE %s' % cond)
-        else:
-            raise Exception('WHERE clause is put in wrong place.')
+        return self._apply('WHERE %s' % cond)
 
     def ON(self, cond):
         if self._is_next_to('JOIN'):
