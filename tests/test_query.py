@@ -100,8 +100,8 @@ def test_group_by():
 
 def test_having():
     q = Q().SELECT(column_obj).FROM(table_obj)
-    # assert q.HAVING('col = 1234').getq() == 'SELECT column\nFROM table AS tbl\nHAVING col = 1234'
-    # assert q.HAVING(column_obj == 1234).getq() == 'SELECT column\nFROM table AS tbl\nHAVING col = 1234'
+    assert q.HAVING('col = 1234').getq() == 'SELECT column AS col\nFROM table AS tbl\nHAVING col = 1234'
+    assert q.HAVING(column_obj == 1234).getq() == 'SELECT column AS col\nFROM table AS tbl\nHAVING col = 1234'
 
 
 def test_order_by():

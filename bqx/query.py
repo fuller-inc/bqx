@@ -63,6 +63,9 @@ class Query:
     def WHERE(self, cond):
         return self._apply('WHERE %s' % cond)
 
+    def HAVING(self, cond):
+        return self._apply('HAVING %s' % cond)
+
     def ON(self, cond):
         if self._is_next_to('JOIN'):
             return self._apply('ON %s' % cond)
