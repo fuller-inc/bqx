@@ -86,22 +86,36 @@ def test_join():
         q.ON('cond')  # Call ON without calling JOINs
 
 
-def test_where():
-    q = Q().SELECT(column_obj).FROM(table_obj)
-    assert q.WHERE('col = 1234').getq() == 'SELECT column AS col\nFROM table AS tbl\nWHERE col = 1234'
-    assert q.WHERE(column_obj == 1234).getq() == 'SELECT column AS col\nFROM table AS tbl\nWHERE col = 1234'
-
-
 def test_group_by():
     assert Q().GROUP_BY(column).getq() == 'GROUP BY column'
     assert Q().GROUP_BY(column_obj).getq() == 'GROUP BY col'
     assert Q().GROUP_BY(column_obj).EACH().getq() == 'GROUP EACH BY col'
 
 
+def test_where():
+    q = Q().SELECT(column_obj).FROM(table_obj)
+    assert q.WHERE('col = 1234').getq() == 'SELECT column AS col\nFROM table AS tbl\nWHERE col = 1234'
+    assert q.WHERE(column_obj == 1234).getq() == 'SELECT column AS col\nFROM table AS tbl\nWHERE col = 1234'
+
+
 def test_having():
     q = Q().SELECT(column_obj).FROM(table_obj)
     assert q.HAVING('col = 1234').getq() == 'SELECT column AS col\nFROM table AS tbl\nHAVING col = 1234'
     assert q.HAVING(column_obj == 1234).getq() == 'SELECT column AS col\nFROM table AS tbl\nHAVING col = 1234'
+
+
+def test_on():
+    ideal = 'SELECT column AS col\nFROM table AS tbl\nINNER JOIN table_foo AS foo\nON tbl.x = foo.x'
+    q = Q().SELECT(column_obj).FROM(table_obj).INNER_JOIN(table_foo)
+    assert q.ON('tbl.x = foo.x').getq() == ideal
+    assert q.ON(table_obj.x == table_foo.x).getq() == ideal
+
+
+def test_omit_record_if():
+    ideal = 'SELECT column AS col\nFROM table AS tbl\nOMIT RECORD IF col = 1234'
+    q = Q().SELECT(column_obj).FROM(table_obj)
+    assert q.OMIT_RECORD_IF('col = 1234').getq() == ideal
+    assert q.OMIT_RECORD_IF(column_obj == 1234).getq() == ideal
 
 
 def test_order_by():
