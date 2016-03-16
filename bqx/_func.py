@@ -1,6 +1,10 @@
 from .parts import Column
 
 
+def BETWEEN(expr1, expr2, expr3):
+    return Column('%s BETWEEN %s AND %s' % (_actual_n(expr1), _actual_n(expr2), _actual_n(expr3)))
+
+
 def CAST(type1, type2):
     return Column('CAST(%s)' % _actual_n('%s AS %s' % (type1, type2)))
 
@@ -9,6 +13,18 @@ def CONCAT(*args):
     arg = ['"%s"' % _actual_n(a) for a in args]
     arg = ', '.join(arg)
     return Column('CONCAT(%s)' % arg)
+
+
+def CONTAINS(exp, search_str):
+    return Column('%s CONTAINS %s' % (_actual_n(exp), _actual_n(search_str)))
+
+
+def IN(search_expr, *expr):
+    return Column('%s IN(%s)' % (_actual_n(search_expr), ', '.join(_actual_n(x) for x in expr)))
+
+
+def IS_NULL(expr):
+    return Column('%s IS NULL' % _actual_n(expr))
 
 
 def _fn_factory(name):
