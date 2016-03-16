@@ -70,7 +70,8 @@ The another reason is for SQL's UPPERCASE manners.
 
 
 ### Is it ready to use?
-Some important clauses are not implemented at present. 
+We hope it's so.
+All main clauses are implemented from v0.2.0, but not fully tested by hand yet.
 
 
 ### Where are documentations?
