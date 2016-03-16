@@ -72,6 +72,9 @@ class Query:
         else:
             raise Exception('ON clause is put in wrong place. Last clause: %s' % self.applied_c[-1])
 
+    def OMIT_RECORD_IF(self, cond):
+        return self._apply('OMIT RECORD IF %s' % cond)
+
     def ORDER_BY(self, *cols):
         s = 'ORDER BY %s' % ', '.join(str(x) for x in cols)
         return self._apply(s)
