@@ -107,8 +107,3 @@ class Alias:
             else:
                 return self.real_name
 
-    def alias_name(self):
-        return self.alias_name
-
-    def real_name(self):
-        return self.real_name
