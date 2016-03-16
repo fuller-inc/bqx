@@ -109,6 +109,8 @@ class Column(Comparable, Alias):
         if isinstance(other, str):
             other = repr(other)
 
-        if any(op in n for op in list('<=>!+-*/%&|')):
-            n = '(%s)' % n
-        return Column('%s %s %s' % (n, op, str(other)))
+        if op != '=':
+            t = '(%s %s %s)'
+        else:
+            t = '%s %s %s'
+        return Column(t % (n, op, str(other)))

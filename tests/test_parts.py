@@ -52,5 +52,6 @@ def test_column():
 
 
 def test_complex_calc():
-    assert str(column_as + column_as + column_as + column_as) == '((col + col) + col) + col'
-    assert str(column_as + column_as - column_as * column_as / column_as) == '(col + col) - (col * col) / col'
+    assert str(column_as + column_as + column_as + column_as) == '(((col + col) + col) + col)'
+    assert str(column_as + column_as - column_as * column_as / column_as) == '((col + col) - ((col * col) / col))'
+    assert str(column_as / (column_as * 39)) == '(col / (col * 39))'
