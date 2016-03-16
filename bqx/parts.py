@@ -18,6 +18,22 @@ class Table(Alias):
         return self.alias_name
 
 
+class Flatten:
+    def __init__(self, *table):
+        self.tables = []
+
+        for t in table:
+            if isinstance(t, Column):
+                self.tables.append(t.real_name.split('.')[-1])
+            elif isinstance(t, Table):
+                self.tables.append(t.real_name)
+            elif isinstance(t, str):
+                self.tables.append(t)
+
+    def __str__(self):
+        return 'FLATTEN(%s)' % ', '.join(self.tables)
+
+
 class Column(Comparable, Alias):
     def __init__(self, real_name):
         """Initiate Column.

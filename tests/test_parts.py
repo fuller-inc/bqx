@@ -5,11 +5,13 @@ Run Test: `tox` or `python setup.py test`
 """
 
 import pytest
-from bqx.parts import Table, Column
+from bqx.parts import Table, Column, Flatten
 
 
 table = Table('table')
 table_as = Table('table').AS('tbl')
+flatten = Flatten('table', 'nested_tablelike')
+flatten_cplx = Flatten(table_as, table_as.col)
 column = Column('column')
 column_as = Column('column').AS('col')
 
@@ -20,6 +22,11 @@ def test_table():
 
     assert str(table_as) == 'tbl'
     assert str(table_as.column) == 'tbl.column'
+
+
+def test_flatten():
+    assert str(flatten) == 'FLATTEN(table, nested_tablelike)'
+    assert str(flatten_cplx) == 'FLATTEN(table, col)'
 
 
 def test_column():
