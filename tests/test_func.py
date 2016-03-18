@@ -22,11 +22,11 @@ def test_cast():
 
 
 def test_concat():
-    assert str(CONCAT('a', 'b', 'c')) == 'CONCAT("a", "b", "c")'
+    assert str(CONCAT('a', 'b', 'c')) == "CONCAT('a', 'b', 'c')"
 
 
 def test_contains():
-    assert str(CONTAINS(column, 'miku')) == 'column CONTAINS miku'
+    assert str(CONTAINS(column, 'miku')) == "column CONTAINS 'miku'"
 
 
 def test_in():
@@ -39,4 +39,4 @@ def test_is_null():
 
 def test_factory():
     fn = _fn_factory('TESTFUNC')
-    assert str(fn(1, 'a', Column('b').AS('colb'), '2')) == 'TESTFUNC(1,a,b,2)'
+    assert str(fn(1, 'a', Column('b').AS('colb'), '2')) == "TESTFUNC(1,'a',b,'2')"

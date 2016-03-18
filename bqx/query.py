@@ -53,7 +53,10 @@ class Query:
     def FROM(self, *args):
         tbl = []
         for a in args:
-            tbl.append(self._as_claus(a))
+            if isinstance(a, str):
+                tbl.append(a)
+            else:
+                tbl.append(a.as_claus())
         if self.indent:
             t = textwrap.indent(', '.join(tbl), '  ').lstrip()
         else:
@@ -112,7 +115,10 @@ class Query:
         else:
             self.joined = True
 
-        t = self._as_claus(table)
+        if isinstance(table, str):
+            t = table
+        else:
+            t = table.as_claus()
         return self._apply('%s JOIN %s' % (type, t))
 
     def INNER_JOIN(self, table):
@@ -167,6 +173,12 @@ class Query:
             s = '%s'
         return s % end.join(self.applied_c)
 
+    def as_claus(self):
+        t = self.getq(bracket=True)
+        if self.alias_name:
+            t = '%s AS %s' % (t, self.alias_name)
+        return t
+
     def _apply(self, clause):
         newself = deepcopy(self)
         newself.applied_c.append(clause)
@@ -191,17 +203,6 @@ class Query:
         except IndexError:
             pass
         return False
-
-    def _as_claus(self, arg):
-        if isinstance(arg, Table):
-            t = arg.as_claus()
-        elif isinstance(arg, Query):
-            t = arg.getq(bracket=True)
-            if arg.alias_name:
-                t = '%s AS %s' % (t, arg.alias_name)
-        else:
-            t = arg
-        return t
 
     def _add_decorator(self, last_clause, deco):
         if self._is_next_to(last_clause):

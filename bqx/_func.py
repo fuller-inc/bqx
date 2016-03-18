@@ -6,11 +6,11 @@ def BETWEEN(expr1, expr2, expr3):
 
 
 def CAST(type1, type2):
-    return Column('CAST(%s)' % _actual_n('%s AS %s' % (type1, type2)))
+    return Column('CAST(%s AS %s)' % (type1, type2))
 
 
 def CONCAT(*args):
-    arg = ['"%s"' % _actual_n(a) for a in args]
+    arg = [_actual_n(a) for a in args]
     arg = ', '.join(arg)
     return Column('CONCAT(%s)' % arg)
 
@@ -35,7 +35,7 @@ def _fn_factory(name):
 
 def _actual_n(col):
     if isinstance(col, str):
-        return col
+        return "'%s'" % col
     elif isinstance(col, Column):
         return col.real_name
     else:
