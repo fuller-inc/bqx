@@ -50,6 +50,8 @@ def test_column():
         assert op(column_as) == 'col %s col' % rep
         assert op(column) == 'col %s column' % rep
 
+    assert column_as.__eq__(None) == 'col IS NULL'
+
 
 def test_complex_calc():
     assert str(column_as + column_as + column_as + column_as) == '(((col + col) + col) + col)'

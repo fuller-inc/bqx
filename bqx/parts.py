@@ -106,11 +106,17 @@ class Column(Comparable, Alias):
         else:
             n = self.real_name
 
-        if isinstance(other, str):
-            other = repr(other)
-
-        if op != '=':
-            t = '(%s %s %s)'
-        else:
+        if other is None:
             t = '%s %s %s'
+            op = 'IS'
+            other = 'NULL'
+        else:
+            if isinstance(other, str):
+                other = repr(other)
+
+            if op != '=':
+                t = '(%s %s %s)'
+            else:
+                t = '%s %s %s'
+
         return Column(t % (n, op, str(other)))
