@@ -107,8 +107,11 @@ class Column(Comparable, Alias):
             n = self.real_name
 
         if other is None:
+            if op == '=':
+                op = 'IS'
+            elif op == '!=':
+                op = 'IS NOT'
             t = '%s %s %s'
-            op = 'IS'
             other = 'NULL'
         else:
             if isinstance(other, str):
