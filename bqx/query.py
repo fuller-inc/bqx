@@ -1,6 +1,8 @@
 import textwrap
 import bqx.parts
 import bqx.abstract
+import os
+import hashlib
 from copy import deepcopy
 
 Column = bqx.parts.Column
@@ -31,10 +33,10 @@ class Query:
             setattr(copied, k, deepcopy(v, memo))
         return copied
 
-    def SELECT(self, *args, **kwargs):
+    def SELECT(self, *columns):
         if self.selected:
             self.selected = False
-            q = self.SELECT(*args, **kwargs)
+            q = self.SELECT(*columns)
             q = q.FROM(self)
             q.applied_c = q.applied_c[-2:]
             return q
@@ -42,7 +44,7 @@ class Query:
             self.selected = True
 
         col = []
-        for arg in args:
+        for arg in columns:
             if isinstance(arg, str):
                 col.append(arg)
             elif isinstance(arg, Column) or isinstance(arg, Case):
@@ -50,13 +52,13 @@ class Query:
         # col += [Column(real).AS(alias).as_claus() for alias, real in kwargs.items()]
         return self._apply('SELECT %s' % ', '.join(col))
 
-    def FROM(self, *args):
+    def FROM(self, *tables):
         tbl = []
-        for a in args:
-            if isinstance(a, str):
-                tbl.append(a)
+        for t in tables:
+            if isinstance(t, str):
+                tbl.append(t)
             else:
-                tbl.append(a.as_claus())
+                tbl.append(t.as_claus())
         if self.indent:
             t = textwrap.indent(', '.join(tbl), '  ').lstrip()
         else:
@@ -78,18 +80,18 @@ class Query:
     def OMIT_RECORD_IF(self, cond):
         return self._apply('OMIT RECORD IF %s' % cond)
 
-    def ORDER_BY(self, *cols):
-        s = 'ORDER BY %s' % ', '.join(str(x) for x in cols)
+    def ORDER_BY(self, *columns):
+        s = 'ORDER BY %s' % ', '.join(str(x) for x in columns)
         return self._apply(s)
 
     def ASC(self):
         return self._add_decorator('ORDER BY', 'ASC')
 
-    def DESC(self, *args):
-        if len(args) == 0:
+    def DESC(self, *columns):
+        if len(columns) == 0:
             return self._add_decorator('ORDER BY', 'DESC')
         newself = deepcopy(self)
-        for _col in args:
+        for _col in columns:
             col = str(_col)
             newself = newself._replace_partly(-1, col, col + ' DESC')
         return newself
