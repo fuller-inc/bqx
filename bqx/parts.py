@@ -117,7 +117,9 @@ class Column(Comparable, Alias):
             if isinstance(other, str):
                 other = repr(other)
 
-            if op != '=':
+            if op == 'AND' or op == 'OR':
+                t = '(%s) %s %s'
+            elif op != '=':
                 t = '(%s %s %s)'
             else:
                 t = '%s %s %s'
