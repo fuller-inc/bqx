@@ -21,11 +21,16 @@ class Query:
         self.selected = False  # Flag for SELECT chain
         self.joined = False  # Flag for JOIN chain
 
+        # Alternative alias used if necessary (e.g. alias name is not defined by user)
+        self.alias_name_rnd = self.gen_random_alias()
+
     def __getattr__(self, item):
         if self.alias_name:
-            return Column('%s.%s' % (self.alias_name, str(item)))
+            alias = self.alias_name
         else:
-            raise Exception("Attribute/Function %s is not found. Call AS or register UDF funcs." % item)
+            # Alias is not defined. Use auto-generated alias name.
+            alias = self.alias_name_rnd
+        return Column('%s.%s' % (alias, str(item)))
 
     def __deepcopy__(self, memo):
         copied = type(self)()
@@ -176,10 +181,14 @@ class Query:
         return s % end.join(self.applied_c)
 
     def as_claus(self):
-        t = self.getq(bracket=True)
         if self.alias_name:
-            t = '%s AS %s' % (t, self.alias_name)
-        return t
+            alias = self.alias_name
+        else:
+            alias = self.alias_name_rnd
+        return '%s AS %s' % (self.getq(bracket=True), alias)
+
+    def gen_random_alias(self):
+        return hashlib.md5(os.urandom(100)).hexdigest()[:7]
 
     def _apply(self, clause):
         newself = deepcopy(self)
