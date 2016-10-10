@@ -57,3 +57,5 @@ def test_complex_calc():
     assert str(column_as + column_as + column_as + column_as) == '(((col + col) + col) + col)'
     assert str(column_as + column_as - column_as * column_as / column_as) == '((col + col) - ((col * col) / col))'
     assert str(column_as / (column_as * 39)) == '(col / (col * 39))'
+    assert str((column_as == 5) & (column_as >= 39)) == '(col = 5) AND (col >= 39)'
+    assert str((column_as == 5) | (column_as >= 39)) == '(col = 5) OR (col >= 39)'
