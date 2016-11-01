@@ -1,5 +1,7 @@
 import os
 import hashlib
+import string
+import random
 import bqx.abstract
 
 Alias = bqx.abstract.Alias
@@ -7,13 +9,15 @@ Comparable = bqx.abstract.Comparable
 
 
 class Table(Alias):
+    char_list = string.ascii_letters + string.digits
+
     def __init__(self, real):
         if isinstance(real, str):
             super().__init__(real)
 
     def __getattr__(self, item):
         if self.alias_name == None:
-            self.alias_name = hashlib.md5(os.urandom(100)).hexdigest()[:7]
+            self.alias_name = 'T%s' % ''.join(random.choice(self.char_list) for _ in range(4))
         return Column('%s.%s' % (self.alias_name, item))
 
     def __str__(self):
