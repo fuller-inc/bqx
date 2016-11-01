@@ -1,3 +1,5 @@
+import os
+import hashlib
 import bqx.abstract
 
 Alias = bqx.abstract.Alias
@@ -11,7 +13,7 @@ class Table(Alias):
 
     def __getattr__(self, item):
         if self.alias_name == None:
-            raise Exception('Define alias name using AS.')
+            self.alias_name = hashlib.md5(os.urandom(100)).hexdigest()[:7]
         return Column('%s.%s' % (self.alias_name, item))
 
     def __str__(self):
@@ -117,7 +119,9 @@ class Column(Comparable, Alias):
             if isinstance(other, str):
                 other = repr(other)
 
-            if op != '=':
+            if op == 'AND' or op == 'OR':
+                t = '(%s) %s %s'
+            elif op != '=':
                 t = '(%s %s %s)'
             else:
                 t = '%s %s %s'
