@@ -3,6 +3,8 @@ import bqx.parts
 import bqx.abstract
 import os
 import hashlib
+import string
+import random
 from copy import deepcopy
 
 Column = bqx.parts.Column
@@ -11,6 +13,8 @@ Alias = bqx.abstract.Alias
 
 
 class Query:
+    char_list = string.ascii_letters + string.digits
+
     def __init__(self, udf=[], indent=True, auto_alias=False):
         self.partial = True
         self.applied_c = []
@@ -188,7 +192,7 @@ class Query:
         return '%s AS %s' % (self.getq(bracket=True), alias)
 
     def gen_random_alias(self):
-        return hashlib.md5(os.urandom(100)).hexdigest()[:7]
+        return 'Q%s' % ''.join(random.choice(self.char_list) for _ in range(4))
 
     def _apply(self, clause):
         newself = deepcopy(self)
