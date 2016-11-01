@@ -17,8 +17,10 @@ column_as = Column('column').AS('col')
 
 
 def test_table():
-    with pytest.raises(Exception):
+    try:
         table.column  # Access column without defining alias
+    except Exception:
+        pytest.fail("Unexpected exception raised")
 
     assert str(table_as) == 'tbl'
     assert str(table_as.column) == 'tbl.column'

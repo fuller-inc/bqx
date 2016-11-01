@@ -36,8 +36,11 @@ def test_creation():
 
 
 def test_accessing_attributes():
-    with pytest.raises(Exception):  # Get attribute without setting alias name
-        Q().column
+    try:
+        Q().column  # Get attribute without setting alias name
+    except Exception:
+        pytest.fail("Unexpected exception raised")
+
     assert str(Q().AS('alias_name').column) == 'alias_name.column'  # Get attribute after setting alias name
 
 
@@ -153,11 +156,11 @@ def test_select_chain():
     q = (
         Q()
         .SELECT(column_obj)
-        .FROM(table_obj)
+        .FROM(table_obj).AS('foo')
         .SELECT('col')
         .ORDER_BY(column_obj))
 
-    assert q.getq() == 'SELECT col\nFROM (SELECT column AS col\n  FROM table AS tbl)\nORDER BY col'
+    assert q.getq() == 'SELECT col\nFROM (SELECT column AS col\n  FROM table AS tbl) AS foo\nORDER BY col'
 
 
 def test_join_chain():
