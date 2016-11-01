@@ -37,6 +37,6 @@ def _actual_n(col):
     if isinstance(col, str):
         return "'%s'" % col
     elif isinstance(col, Column):
-        return col.real_name
+        return str(col.real_name)
     else:
         return str(col)
