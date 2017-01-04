@@ -123,8 +123,12 @@ class Column(Comparable, Alias):
             if isinstance(other, str):
                 other = repr(other)
 
+            # Because of specification of Python language,
+            # conditional AND and OR operations are altered by & and |.
+            # Bitwise AND/OR have higher precedence than conditional ones
+            # so `n` and `other` are to be evaluated prior to them.
             if op == 'AND' or op == 'OR':
-                t = '(%s) %s %s'
+                t = '(%s) %s (%s)'
             elif op != '=':
                 t = '(%s %s %s)'
             else:
