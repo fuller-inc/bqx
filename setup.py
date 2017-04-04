@@ -21,7 +21,7 @@ if 'install' in sys.argv or 'test' in sys.argv:
     funcpy = os.path.join(here, 'bqx/func.py')
     generate_funcpy(funcpy_in, funcpy)
 
-__version__ = '0.3.3'
+__version__ = '0.4.0'
 __author__ = 'Takumi Sueda'
 __author_email__ = 'takumi.sueda@fuller.co.jp'
 __license__ = 'BSD License'

@@ -41,7 +41,9 @@ class Flatten:
 
 
 class Column(Comparable, Alias):
-    def __init__(self, real_name):
+    _simple = None
+
+    def __init__(self, real_name, _simple=True):
         """Initiate Column.
 
         Args:
@@ -55,6 +57,7 @@ class Column(Comparable, Alias):
             'table.column'
         """
         Alias.__init__(self, real_name)
+        self._simple = _simple
 
     def __getattr__(self, item):
         if item.startswith('__'):
@@ -106,28 +109,35 @@ class Column(Comparable, Alias):
     def __or__(self, other):
         return self._cond_t('OR', other)
 
+    def _is_simple(self):
+        # Returns if self (instance of Column) consists of single column or value.
+        return self._simple
+
     def _cond_t(self, op, other):
         if self.alias_name:
             n = self.alias_name
         else:
             n = self.real_name
 
+        # If self has child expr, self should have higher precedence
+        if not self._is_simple():
+            n = '(%s)' % n
+
+        # None: NULL-check should use IS / IS NOT
         if other is None:
             if op == '=':
                 op = 'IS'
             elif op == '!=':
                 op = 'IS NOT'
-            t = '%s %s %s'
             other = 'NULL'
-        else:
-            if isinstance(other, str):
-                other = repr(other)
 
-            if op == 'AND' or op == 'OR':
-                t = '(%s) %s %s'
-            elif op != '=':
-                t = '(%s %s %s)'
-            else:
-                t = '%s %s %s'
+        # str: Decorate string with quotes
+        elif isinstance(other, str):
+            other = repr(other)
 
-        return Column(t % (n, op, str(other)))
+        # Column: simplicity check
+        elif isinstance(other, Column):
+            if not other._is_simple():
+                other = '(%s)' % str(other)
+
+        return Column('%s %s %s' % (n, op, str(other)), _simple=False)
