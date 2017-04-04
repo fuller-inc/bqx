@@ -53,6 +53,7 @@ def test_column():
         assert op(column) == 'col %s column' % rep
 
     assert column_as.__eq__(None) == 'col IS NULL'
+    assert column_as.__ne__(None) == 'col IS NOT NULL'
 
 
 def test_complex_calc():
