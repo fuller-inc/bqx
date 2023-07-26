@@ -26,7 +26,7 @@ __author__ = 'Takumi Sueda'
 __author_email__ = 'takumi.sueda@fuller.co.jp'
 __license__ = 'BSD License'
 __classifiers__ = (
-    'Development Status :: 4 - Beta',
+    'Development Status :: 7 - Inactive',
     'Environment :: Console',
     'Intended Audience :: Developers',
     'Intended Audience :: Science/Research',
