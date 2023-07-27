@@ -22,8 +22,6 @@ if 'install' in sys.argv or 'test' in sys.argv:
     generate_funcpy(funcpy_in, funcpy)
 
 __version__ = '0.4.0'
-__author__ = 'Takumi Sueda'
-__author_email__ = 'takumi.sueda@fuller.co.jp'
 __license__ = 'BSD License'
 __classifiers__ = [
     'Development Status :: 7 - Inactive',
@@ -54,8 +52,6 @@ class PyTest(TestCommand):
 setup(
     name='bqx',
     version=__version__,
-    author=__author__,
-    author_email=__author_email__,
     url='https://github.com/fuller-inc/bqx',
     description='Query generator for Google BigQuery and other SQL environments',
     long_description=readme,
