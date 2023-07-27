@@ -25,8 +25,8 @@ __version__ = '0.4.0'
 __author__ = 'Takumi Sueda'
 __author_email__ = 'takumi.sueda@fuller.co.jp'
 __license__ = 'BSD License'
-__classifiers__ = (
-    'Development Status :: 4 - Beta',
+__classifiers__ = [
+    'Development Status :: 7 - Inactive',
     'Environment :: Console',
     'Intended Audience :: Developers',
     'Intended Audience :: Science/Research',
@@ -38,7 +38,7 @@ __classifiers__ = (
     'Programming Language :: SQL',
     'Topic :: Database',
     'Topic :: Software Development :: Code Generators',
-)
+]
 
 
 class PyTest(TestCommand):

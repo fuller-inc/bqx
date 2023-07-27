@@ -3,8 +3,11 @@ BQX
 [![Build Status](https://img.shields.io/travis/fuller-inc/bqx/master.svg?style=flat-square)](https://travis-ci.org/fuller-inc/bqx)
 [![Coverage Status](https://img.shields.io/coveralls/fuller-inc/bqx/master.svg?style=flat-square)](https://coveralls.io/github/fuller-inc/bqx?branch=master)
 
-Generage sophisticated query for Google BigQuery in simple way.
+Generate sophisticated query for Google BigQuery in simple way.
 
+## ARCHIVED
+
+This project is archived and no longer maintained.
 
 ## What is BQX?
 BQX is a minimal query generator for Google BigQuery.
